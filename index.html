@@ -914,10 +914,10 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
     transition: color .22s cubic-bezier(.25,.7,.25,1) !important;
   }
 
-  /* Header text can become distinctly dark against the light Mallorca footage. */
+  /* Header labels shift from white to a gently muted silver-grey. */
   .site-header .menu-button:hover span,
   .site-header .property-search:hover span {
-    color: #233541 !important;
+    color: #c7ccd1 !important;
   }
   /* Open hamburger: restore the approved white hover, not the darker header hover. */
   #kaimo-navigation .kaimo-root-close:hover span,
@@ -942,7 +942,7 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
 /* Final scoped hover refinement: color the letters AND their matching symbol;
    keep both circular cursors clear, preserve the logo, video and existing motion. */
 @media (hover:hover) and (pointer:fine) {
-  /* Use a darker midnight ink than the previous slate hover. */
+  /* Subtle light-grey hover color: never dark navy or black. */
   .site-header .header-primary .menu-button,
   .site-header .header-primary .property-search,
   #kaimo-navigation .kaimo-root-close,
@@ -962,17 +962,17 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
   .site-header .header-primary .property-search:focus-visible span,
   .site-header .header-primary .property-search:hover svg,
   .site-header .header-primary .property-search:focus-visible svg {
-    color:#11222b!important;
+    color:#c7ccd1!important;
   }
   /* The visible hamburger icon is CSS-drawn, not the hidden SVG. */
   .site-header .header-primary .menu-button:hover::before,
   .site-header .header-primary .menu-button:focus-visible::before {
     background:linear-gradient(to bottom,
-      #11222b 0px,#11222b 1.5px,
+      #c7ccd1 0px,#c7ccd1 1.5px,
       transparent 1.5px,transparent 6.6px,
-      #11222b 6.6px,#11222b 8.1px,
+      #c7ccd1 6.6px,#c7ccd1 8.1px,
       transparent 8.1px,transparent 13.1px,
-      #11222b 13.1px,#11222b 14.6px)!important;
+      #c7ccd1 13.1px,#c7ccd1 14.6px)!important;
   }
   /* Open hamburger: all wording and associated controls stay white when hovered. */
   #kaimo-navigation[data-stage="root"] .kaimo-root-close:hover,
@@ -1008,7 +1008,7 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
 }
 </style>
 <style id="kaimo-hover-fix-strong-visible-2026-11-04">
-/* Final scoped change: the MENU + SEARCH labels and their symbols change together.
+/* Final scoped change: the MENU + SEARCH labels and their symbols become soft grey together.
    Only the two header controls darken; the logo and opened-menu labels do not. */
 @media (hover:hover) and (pointer:fine) {
   .site-header .header-primary .menu-button,
@@ -1023,16 +1023,16 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
   .site-header .header-primary .property-search:is(:hover,:focus-visible),
   .site-header .header-primary .property-search:is(:hover,:focus-visible) span,
   .site-header .header-primary .property-search:is(:hover,:focus-visible) svg {
-    color: #071620 !important;
+    color: #c7ccd1 !important;
     stroke: currentColor !important;
   }
   .site-header .header-primary .menu-button:is(:hover,:focus-visible)::before {
     background:linear-gradient(to bottom,
-      #071620 0px,#071620 1.5px,
+      #c7ccd1 0px,#c7ccd1 1.5px,
       transparent 1.5px,transparent 6.6px,
-      #071620 6.6px,#071620 8.1px,
+      #c7ccd1 6.6px,#c7ccd1 8.1px,
       transparent 8.1px,transparent 13.1px,
-      #071620 13.1px,#071620 14.6px) !important;
+      #c7ccd1 13.1px,#c7ccd1 14.6px) !important;
   }
   /* Keep both cursor outlines light and clear. */
   #kaimo-cursor-ring, #kaimo-cursor-ring.is-hovering,
