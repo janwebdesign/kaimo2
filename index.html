@@ -919,7 +919,7 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
   .site-header .property-search:hover span {
     color: #233541 !important;
   }
-  /* Navy overlay: muted slate is a legible darkening of the original white. */
+  /* Open hamburger: restore the approved white hover, not the darker header hover. */
   #kaimo-navigation .kaimo-root-close:hover span,
   #kaimo-navigation .kaimo-nav-close:hover > span:last-child,
   #kaimo-navigation .kaimo-nav-search:hover > span,
@@ -927,13 +927,83 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
   #kaimo-navigation .kaimo-nav-secondary button:hover,
   #kaimo-navigation .kaimo-language-options button:hover,
   #kaimo-navigation .kaimo-back:hover {
-    color: #8da4b3 !important;
+    color: #fff !important;
   }
   /* Do not dim the brand, even if its link receives hover/focus. */
   .site-header .brand:hover img,
   #kaimo-navigation .kaimo-nav-brand img {
     filter: none !important;
     opacity: 1 !important;
+  }
+}
+</style>
+
+<style id="kaimo-hover-whole-controls-2026-11-04">
+/* Final scoped hover refinement: color the letters AND their matching symbol;
+   keep both circular cursors clear, preserve the logo, video and existing motion. */
+@media (hover:hover) and (pointer:fine) {
+  /* Use a darker midnight ink than the previous slate hover. */
+  .site-header .header-primary .menu-button,
+  .site-header .header-primary .property-search,
+  #kaimo-navigation .kaimo-root-close,
+  #kaimo-navigation .kaimo-nav-close,
+  #kaimo-navigation .kaimo-nav-search {
+    transition:color .24s cubic-bezier(.25,.7,.25,1)!important;
+  }
+  /* Closed menu: MENU letters + hand-drawn three-stroke symbol. */
+  .site-header .header-primary .menu-button:hover,
+  .site-header .header-primary .menu-button:focus-visible,
+  .site-header .header-primary .menu-button:hover span,
+  .site-header .header-primary .menu-button:focus-visible span,
+  /* Search: FIND A PROPERTY wording + magnifier. */
+  .site-header .header-primary .property-search:hover,
+  .site-header .header-primary .property-search:focus-visible,
+  .site-header .header-primary .property-search:hover span,
+  .site-header .header-primary .property-search:focus-visible span,
+  .site-header .header-primary .property-search:hover svg,
+  .site-header .header-primary .property-search:focus-visible svg {
+    color:#11222b!important;
+  }
+  /* The visible hamburger icon is CSS-drawn, not the hidden SVG. */
+  .site-header .header-primary .menu-button:hover::before,
+  .site-header .header-primary .menu-button:focus-visible::before {
+    background:linear-gradient(to bottom,
+      #11222b 0px,#11222b 1.5px,
+      transparent 1.5px,transparent 6.6px,
+      #11222b 6.6px,#11222b 8.1px,
+      transparent 8.1px,transparent 13.1px,
+      #11222b 13.1px,#11222b 14.6px)!important;
+  }
+  /* Open hamburger: all wording and associated controls stay white when hovered. */
+  #kaimo-navigation[data-stage="root"] .kaimo-root-close:hover,
+  #kaimo-navigation[data-stage="root"] .kaimo-root-close:hover span,
+  #kaimo-navigation[data-stage="root"] .kaimo-root-close:hover svg,
+  #kaimo-navigation .kaimo-nav-close:hover,
+  #kaimo-navigation .kaimo-nav-close:hover .kaimo-cross,
+  #kaimo-navigation .kaimo-nav-close:hover svg,
+  #kaimo-navigation .kaimo-nav-search:hover,
+  #kaimo-navigation .kaimo-nav-search:hover span,
+  #kaimo-navigation .kaimo-nav-search:hover svg,
+  #kaimo-navigation .kaimo-nav-primary button:hover > span,
+  #kaimo-navigation .kaimo-nav-secondary button:hover,
+  #kaimo-navigation .kaimo-language-options button:hover,
+  #kaimo-navigation .kaimo-back:hover,
+  #kaimo-navigation .kaimo-back:hover .kaimo-back-arrow {
+    color:#fff!important;
+  }
+  /* Keep actual magnifier glyph and Close X matched to their labels. */
+  .site-header .header-primary .property-search svg,
+  #kaimo-navigation .kaimo-root-close svg,
+  #kaimo-navigation .kaimo-nav-search svg,
+  #kaimo-navigation .kaimo-nav-primary button .kaimo-arrow,
+  #kaimo-navigation .kaimo-back .kaimo-back-arrow {
+    transition:color .24s cubic-bezier(.25,.7,.25,1)!important;
+  }
+  /* No hover alteration of the real KAIMO brand mark. */
+  .site-header .brand:hover img,
+  .site-header .brand:focus-visible img,
+  #kaimo-navigation .kaimo-nav-brand img {
+    opacity:1!important;filter:none!important;
   }
 }
 </style>
