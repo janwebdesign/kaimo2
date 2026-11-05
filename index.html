@@ -1356,4 +1356,68 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
  });
  updateVisible();
 })();
-</script></body></html>
+</script>
+<!-- Demo-only: all future-page links are intentionally paused until the pages exist.
+     The approved hero, hamburger open/close, language switching and animations remain active. -->
+<style id="kaimo-temporary-pages-style">
+  #kaimo-demo-note {
+    position: fixed; left: 50%; bottom: max(28px, env(safe-area-inset-bottom));
+    z-index: 999999; max-width: min(88vw, 340px);
+    padding: 12px 23px; transform: translate(-50%, 12px);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    border: 1px solid rgba(235,246,250,.2);
+    background: rgba(16,35,47,.90); color: #f0f3f3;
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+    text-align: center; border-radius: 3px;
+    font: 500 10px/1.6 Montserrat, Arial, sans-serif;
+    letter-spacing: .17em; text-transform: uppercase;
+    transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  #kaimo-demo-note.is-visible {
+    opacity: 1; visibility: visible; transform: translate(-50%, 0);
+    transition: opacity .22s ease, transform .22s ease, visibility 0s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #kaimo-demo-note { transition: none; }
+  }
+</style>
+<script id="kaimo-temporary-pages-guard">
+(function(){
+ 'use strict';
+ // These controls will be wired up when the corresponding pages are built.
+ // Do not intercept the working hamburger, CLOSE buttons, logo, language picker,
+ // accessibility skip link, or the existing hero video.
+ const futureLinks = [
+   '.site-header .property-search',        // Find a Property
+   '.desktop-navigation .nav-link',      // Original header navigation
+   '.site-header .mobile-enquire',       // Mobile enquiry CTA
+   '.hero .discover',                    // Explore Properties
+   '#site-menu nav button',              // Legacy hidden menu page links
+   '#kaimo-navigation .kaimo-nav-search',
+   '#kaimo-navigation [data-branch]',    // All 6 hamburger categories
+   '#kaimo-navigation [data-sub]'        // Unfinished secondary pages
+ ].join(',');
+ const note = document.createElement('div');
+ note.id = 'kaimo-demo-note';
+ note.setAttribute('role','status');
+ note.setAttribute('aria-live','polite');
+ document.body.appendChild(note);
+ let noteTimer;
+ const labels = {en:'Coming soon',es:'Próximamente',de:'Demnächst',fr:'Prochainement'};
+ document.addEventListener('click',function(event){
+   const target = event.target;
+   if(!target || typeof target.closest !== 'function') return;
+   const item = target.closest(futureLinks);
+   if(!item) return;
+   // Runs in capture phase before React or the menu's navigation handlers.
+   event.preventDefault();
+   event.stopImmediatePropagation();
+   const lang=(document.documentElement.lang||'en').toLowerCase().slice(0,2);
+   note.textContent=labels[lang]||labels.en;
+   note.classList.add('is-visible');
+   clearTimeout(noteTimer);
+   noteTimer=setTimeout(()=>note.classList.remove('is-visible'),1700);
+ },true);
+})();
+</script>
+</body></html>
