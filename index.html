@@ -942,15 +942,17 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
 .hero .hero-copy::before {
   content:""; position:absolute; pointer-events:none;
   left:50%; top:50%; transform:translate(-50%,-50%);
-  width:min(1300px,128vw); height:clamp(320px,48vh,560px);
-  /* Reach full transparency at every edge, including the top and bottom. */
+  width:min(1500px,148vw); height:clamp(420px,64vh,760px);
+  /* Low-contrast feathering: no flat dark centre, no perceptible perimeter. */
   background:radial-gradient(ellipse closest-side at center,
-    rgba(10,17,20,.27) 0%,
-    rgba(10,17,20,.22) 24%,
-    rgba(10,17,20,.13) 48%,
-    rgba(10,17,20,.045) 72%,
-    rgba(10,17,20,.008) 90%,
-    rgba(10,17,20,0) 100%);
+    rgba(10,17,20,.14) 0%,
+    rgba(10,17,20,.12) 14%,
+    rgba(10,17,20,.085) 30%,
+    rgba(10,17,20,.045) 48%,
+    rgba(10,17,20,.018) 65%,
+    rgba(10,17,20,.004) 80%,
+    rgba(10,17,20,0) 95%);
+  filter:blur(32px);
   z-index:0;
 }
 .hero .hero-copy h1 {
@@ -958,7 +960,7 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
   text-shadow:0 1px 5px rgba(0,0,0,.30), 0 4px 23px rgba(0,0,0,.24);
 }
 @media (max-width:850px) {
-  .hero .hero-copy::before {width:124vw;height:380px;}
+  .hero .hero-copy::before {width:160vw;height:480px;filter:blur(24px);}
 }
 </style>
 <style id="kaimo-hover-synchronized-20261105">
