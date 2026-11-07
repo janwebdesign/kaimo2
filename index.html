@@ -937,26 +937,15 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
 </style>
 
 <style id="kaimo-hero-title-contrast-20261105">
-/* Improve title legibility over sunlit limestone without darkening the entire film. */
-.hero .hero-copy { isolation:isolate; }
-.hero .hero-copy::before {
-  content:""; position:absolute; pointer-events:none;
-  left:50%; top:50%; transform:translate(-50%,-50%);
-  width:min(940px,96vw); height:clamp(205px,34vh,355px);
-  background:radial-gradient(ellipse at center,
-    rgba(10,17,20,.19) 0%,
-    rgba(10,17,20,.125) 26%,
-    rgba(10,17,20,.065) 49%,
-    rgba(10,17,20,.018) 75%,
-    rgba(10,17,20,0) 100%);
-  z-index:0;
-}
+/* Readability comes from the glyphs only: no background rectangle, radial
+   gradient, masked overlay, or edge that can show against a bright sky. */
+.hero .hero-copy::before { content:none !important; display:none !important; }
 .hero .hero-copy h1 {
-  position:relative; z-index:1;
-  text-shadow:0 1px 5px rgba(0,0,0,.30), 0 4px 23px rgba(0,0,0,.24);
-}
-@media (max-width:850px) {
-  .hero .hero-copy::before {width:108vw;height:270px;}
+  position:relative;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,.38),
+    0 3px 12px rgba(0,0,0,.28),
+    0 6px 28px rgba(0,0,0,.14);
 }
 </style>
 <style id="kaimo-hover-synchronized-20261105">
