@@ -1668,4 +1668,72 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
 })();
 </script>
+
+<!-- KAIMO: keyboard-only skip link and first-gesture scroll choreography -->
+<style id="kaimo-first-scroll-accessibility">
+/* Preserve a valuable accessibility shortcut without exposing it visually by default. */
+html body a.skip-link:not(:focus):not(:focus-visible) {
+  position:fixed!important;
+  top:0!important;
+  transform:translateY(-150%)!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+html body a.skip-link:focus,
+html body a.skip-link:focus-visible {
+  position:fixed!important;
+  top:12px!important;
+  left:12px!important;
+  transform:none!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+  z-index:100000!important;
+}
+</style>
+<script id="kaimo-first-scroll-choreography">
+(()=>{
+  'use strict';
+  const stage=document.getElementById('km-scroll-stage');
+  const founder=document.getElementById('kaimo-founder-preview');
+  const heroRoot=stage&&stage.querySelector('#root');
+  if(!stage||!founder||!heroRoot)return;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let animating=false, triggered=false, frame=0;
+  const ease=t=>1-Math.pow(1-t,3);
+  const canHandle=()=> !reduced.matches && !document.body.classList.contains('kaimo-menu-open')
+    && !document.body.classList.contains('kaimo-menu-closing')
+    && !document.querySelector('dialog[open]');
+  function go(){
+    if(animating||triggered||!canHandle()||window.scrollY>9)return;
+    triggered=true;animating=true;
+    const start=window.scrollY;
+    // Just enough to reveal a subtle sliver of the next page, with the new headline fully in place.
+    const travel=Math.max(0,stage.getBoundingClientRect().height-heroRoot.getBoundingClientRect().height);
+    const reveal=Math.min(56,Math.max(30,window.innerHeight*.055));
+    const end=Math.min(document.documentElement.scrollHeight-window.innerHeight,stage.offsetTop+travel+reveal);
+    const begun=performance.now(),duration=950;
+    function tick(now){
+      const t=Math.min(1,(now-begun)/duration);
+      window.scrollTo(0,start+(end-start)*ease(t));
+      if(t<1){frame=requestAnimationFrame(tick)}
+      else{animating=false;frame=0}
+    }
+    frame=requestAnimationFrame(tick);
+  }
+  function wheel(e){
+    if(!canHandle())return;
+    if(animating){if(e.cancelable)e.preventDefault();return;}
+    if(window.scrollY<=9 && !triggered && e.deltaY>0 && !e.ctrlKey){
+      if(e.cancelable)e.preventDefault();go();
+    }
+  }
+  window.addEventListener('wheel',wheel,{passive:false,capture:true});
+  // A return to the very top resets the chapter transition for a later visit.
+  window.addEventListener('scroll',()=>{if(!animating&&window.scrollY<=2)triggered=false;},{passive:true});
+  // If reduced motion becomes enabled mid-animation, stop animating immediately.
+  if(reduced.addEventListener)reduced.addEventListener('change',()=>{
+    if(reduced.matches&&animating){cancelAnimationFrame(frame);animating=false;}
+  });
+})();
+</script>
 </body></html>
