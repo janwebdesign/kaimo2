@@ -1044,9 +1044,15 @@ body.kaimo-menu-closing .pointer-ring{visibility:hidden!important}
 .hero #kaimo-cinematic-hero { opacity:1!important;transition:none!important;animation:none!important;object-fit:cover }
 </style>
 
+
+<style id="kaimo-scrollbar-hide">
+/* Hide visible page scrollbars without disabling wheel, touch or keyboard scrolling. */
+html,body {scrollbar-width:none!important;-ms-overflow-style:none!important;}
+html::-webkit-scrollbar,body::-webkit-scrollbar {display:none!important;width:0!important;height:0!important;background:transparent!important;}
+</style>
 <style id="kaimo-scroll-morph-css">
-/* The film stays pinned only while the headline morphs; afterward normal page scrolling resumes. */
-.km-scroll-stage {position:relative; height:151svh; min-height:calc(100vh + 290px); isolation:isolate; background:#14272a; }
+/* Keep the film in place briefly for the morph, then release into the letter. */
+.km-scroll-stage {position:relative; height:calc(100svh + clamp(230px,34svh,340px)); min-height:0; isolation:isolate; background:#14272a; }
 .km-scroll-stage > #root { position:sticky; top:0; height:100svh; min-height:640px; overflow:visible; z-index:1; }
 /* Keep original headline composition. The replacement letters occupy precisely the same lines. */
 .km-scroll-stage #hero-heading {position:relative;}
@@ -1062,12 +1068,12 @@ body.kaimo-menu-closing .km-scroll-stage .hero-copy {opacity:0!important;}
 /* The letter arrives cleanly from the pinned film. */
 #kaimo-founder-preview {scroll-margin-top:0;}
 @media(max-width:850px){
-  .km-scroll-stage{height:149svh; min-height:calc(100svh + 220px)}
+  .km-scroll-stage{height:calc(100svh + clamp(210px,32svh,285px));min-height:0}
   .km-scroll-stage>#root{min-height:0;height:100svh}
   .km-scroll-stage .hero{min-height:0;height:100svh}
 }
 @media(max-height:600px) and (min-width:851px){
- .km-scroll-stage{min-height:calc(100vh + 260px)}
+ .km-scroll-stage{height:calc(100vh + 240px);min-height:0}
 }
 @media(prefers-reduced-motion:reduce){
  .km-scroll-stage #hero-heading .km-next-first,
@@ -1620,19 +1626,25 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
   if(!a1&&!find())return;
   const rect=region.getBoundingClientRect();
   const pinnedTravel=Math.max(1, region.offsetHeight-document.getElementById('root').offsetHeight);
-  // Morph completes with room to enjoy the new words before the hero unpins.
-  const p=smooth(clamp(-rect.top/(pinnedTravel*.82)));
-  if(Math.abs(p-lastProgress)<.001)return;lastProgress=p;
-  const x=smooth(p), y=smooth(p);
-  // The approved hero title plays its original entrance animation until the first scroll.
-  // Then disable its animation fill mode so scroll-driven opacity has precedence.
-  if(p>0.002){a1.style.animation='none';a2.style.animation='none';}
-  // A soft, shape-dissolving blur creates the impression of one sentence becoming the other.
-  // There is deliberately NO translate, slide, scale, or changing font size.
-  const fadeOld=clamp(1-smooth((p-.08)/.82));
-  const fadeNew=clamp(smooth((p-.09)/.80));
-  const blurOld=reduceMotion.matches?0:3.2*smooth(p/.72);
-  const blurNew=reduceMotion.matches?0:3.2*(1-smooth((p-.27)/.73));
+  // Morph is deliberately short (~90-110px of scroll), so visitors don't
+  // get stuck looking at two ghosted sentences halfway between the two states.
+  // The remaining pinned distance is a calm hold on the new, crisp headline.
+  const scrolled=clamp(-rect.top,0,pinnedTravel);
+  const openingHold=Math.min(18,pinnedTravel*.065);
+  const morphDistance=Math.min(105,Math.max(72,pinnedTravel*.36));
+  const progress=clamp((scrolled-openingHold)/morphDistance);
+  if(Math.abs(progress-lastProgress)<.0005)return;lastProgress=progress;
+  const mix=reduceMotion.matches?(progress>=.5?1:0):smooth(progress);
+  // Disable the approved hero's one-time entrance animation only once scrolling
+  // starts, so the original headline does not fight the scroll-driven opacity.
+  if(scrolled>1){a1.style.animation='none';a2.style.animation='none';}
+  // Both phrases occupy the EXACT same two baseline positions: no translations.
+  // One clean, short, synchronized cross-morph, with very little blur.
+  const fadeOld=1-mix;
+  const fadeNew=mix;
+  const feather=reduceMotion.matches?0:1.25*Math.sin(Math.PI*mix);
+  const blurOld=feather;
+  const blurNew=feather;
   for(const el of [a1,a2]){
     el.style.opacity=fadeOld.toFixed(3);
     el.style.filter=blurOld<.18?'none':`blur(${blurOld.toFixed(2)}px)`;
